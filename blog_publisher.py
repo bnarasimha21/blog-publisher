@@ -77,8 +77,9 @@ class BlogPublisher:
         self.convert_btn = ttk.Button(button_frame, text="Convert to Blog Post", command=self.convert_to_blog)
         self.convert_btn.grid(row=0, column=0, padx=5)
         
-        self.publish_btn = ttk.Button(button_frame, text="Publish to WordPress", command=self.publish_to_wordpress, state=tk.DISABLED)
+        self.publish_btn = ttk.Button(button_frame, text="Publish to WordPress", command=self.publish_to_wordpress)
         self.publish_btn.grid(row=0, column=1, padx=5)
+        self.publish_btn['state'] = 'disabled'
         
         self.clear_btn = ttk.Button(button_frame, text="Clear All", command=self.clear_all)
         self.clear_btn.grid(row=0, column=2, padx=5)
@@ -153,7 +154,7 @@ Keep it natural and conversational, as if I wrote it myself."""
             self.output_text.delete("1.0", tk.END)
             self.output_text.insert("1.0", blog_post)
             
-            self.publish_btn.config(state=tk.NORMAL)
+            self.publish_btn['state'] = 'normal'
             self.status_var.set("Blog post generated! Review and publish when ready.")
             
         except Exception as e:
@@ -193,7 +194,7 @@ Keep it natural and conversational, as if I wrote it myself."""
             content = '\n'.join(lines[1:]).strip()
         
         self.status_var.set("Publishing to WordPress...")
-        self.publish_btn.config(state=tk.DISABLED)
+        self.publish_btn['state'] = 'disabled'
         self.root.update()
         
         try:
@@ -231,13 +232,13 @@ Keep it natural and conversational, as if I wrote it myself."""
             messagebox.showerror("Error", f"Failed to publish: {str(e)}")
             self.status_var.set("Error during publishing")
         finally:
-            self.publish_btn.config(state=tk.NORMAL)
+            self.publish_btn['state'] = 'normal'
     
     def clear_all(self):
         """Clear all text fields"""
         self.input_text.delete("1.0", tk.END)
         self.output_text.delete("1.0", tk.END)
-        self.publish_btn.config(state=tk.DISABLED)
+        self.publish_btn['state'] = 'disabled'
         self.status_var.set("Cleared. Ready for new content.")
 
 def main():
